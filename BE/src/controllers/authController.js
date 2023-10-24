@@ -2,6 +2,7 @@ const { SERVER, HTTP_STATUS } = require("../constants/index.js");
 const bcrypt = require("bcrypt");
 const User = require("../models/user.js");
 const jwt = require("jsonwebtoken");
+const Token = require("../models/token.js");
 
 const authController = {
   async register(req, res) {
@@ -29,7 +30,7 @@ const authController = {
       const createdUser = await User.create({
         username,
         password: hashedPassword,
-        role: "65336d1b76206f65b1c5fb5d",
+        role: "65338257250d059d50c30469",
       });
 
       if (!createdUser) {
@@ -80,25 +81,17 @@ const authController = {
           .json({ success: false, message: "Unauthorized" });
       }
 
-      const accessToken = jwt.sign(
-        {
-          userId: user._id,
-        },
-        process.env.JWT_AT,
-        {
-          expiresIn: "1d",
-        }
+      const accessToken = authController.generateToken(
+        user.id,
+        "1d",
+        process.env.JWT_AT
       );
-
-      const refreshToken = jwt.sign(
-        {
-          userId: user._id,
-        },
-        process.env.JWT_AT,
-        {
-          expiresIn: "365d",
-        }
+      const refreshToken = authController.generateToken(
+        user.id,
+        "365d",
+        process.env.JWT_RT
       );
+      Token.create({ token: refreshToken });
 
       const data = { user, accessToken, refreshToken };
 
@@ -119,7 +112,59 @@ const authController = {
     }
   },
 
-  refreshToken(req, res) {},
+  async refreshToken(req, res) {
+    const refreshToken = req.body.refreshToken;
+    if (!refreshToken) {
+      return res
+        .status(HTTP_STATUS.UNAUTHORIZED)
+        .json({ success: false, message: "You're not authenticated" });
+    }
+
+    const isDeleted = await Token.findOneAndRemove({ token: refreshToken });
+
+    if (!isDeleted) {
+      return res
+        .status(HTTP_STATUS.UNAUTHORIZED)
+        .json({ success: false, message: "Token is valid" });
+    }
+
+    jwt.verify(refreshToken, process.env.JWT_RT, (err, user) => {
+      if (err) {
+        console.log(err);
+      } else {
+        const newAccessToken = authController.generateToken(
+          user,
+          "1d",
+          process.env.JWT_AT
+        );
+        const newRefreshToken = authController.generateToken(
+          user,
+          "365d",
+          process.env.JWT_RT
+        );
+        Token.create({ token: newRefreshToken });
+        data = { accessToken: newAccessToken, refreshToken: newRefreshToken };
+        return res.json({
+          success: true,
+          message: "refresh successfully",
+          data,
+        });
+      }
+    });
+  },
+
+  generateToken(userId, expiresIn, secret) {
+    const token = jwt.sign(
+      {
+        userId: userId,
+      },
+      secret,
+      {
+        expiresIn,
+      }
+    );
+    return token;
+  },
 };
 
 module.exports = authController;
