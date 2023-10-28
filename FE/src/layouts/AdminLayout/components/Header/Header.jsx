@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 function Header() {
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center p-4 fixed top-0 left-[20%] right-0">
       <div className="flex items-center gap-4">
         <button>
           <FontAwesomeIcon icon={faBars} />
