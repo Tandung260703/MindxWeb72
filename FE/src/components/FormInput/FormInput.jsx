@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-function FormInput({ label, name, errorMessage, className }) {
+function FormInput({ label, name, errorMessage, className, type }) {
   const id = useId();
   return (
     <div className={className}>
@@ -9,7 +9,7 @@ function FormInput({ label, name, errorMessage, className }) {
       </label>
       <input
         className="outline-none border py-2 px-4 rounded-md inline-block w-full"
-        type="text"
+        type={type || "text"}
         id={id}
         placeholder={`Nhập ${label}...`}
         name={name}

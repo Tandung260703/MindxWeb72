@@ -2,7 +2,9 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      "bg-img-auth": 'url("/images/bgAuth.jpg")',
+    },
   },
   plugins: [],
 };
