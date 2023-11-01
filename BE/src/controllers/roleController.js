@@ -57,6 +57,48 @@ const roleController = {
       });
     }
   },
+
+  async update(req, res) {
+    try {
+    } catch (error) {
+      if (!SERVER.__PROD__) {
+        console.log(`[ERROR] ${error}`);
+      }
+
+      return res.status(HTTP_STATUS.SERVER).json({
+        success: false,
+        message: "SERVER",
+      });
+    }
+  },
+
+  async delete(req, res) {
+    try {
+    } catch (error) {
+      if (!SERVER.__PROD__) {
+        console.log(`[ERROR] ${error}`);
+      }
+
+      return res.status(HTTP_STATUS.SERVER).json({
+        success: false,
+        message: "SERVER",
+      });
+    }
+  },
+
+  async detail(req, res) {
+    try {
+    } catch (error) {
+      if (!SERVER.__PROD__) {
+        console.log(`[ERROR] ${error}`);
+      }
+
+      return res.status(HTTP_STATUS.SERVER).json({
+        success: false,
+        message: "SERVER",
+      });
+    }
+  },
 };
 
 module.exports = roleController;
