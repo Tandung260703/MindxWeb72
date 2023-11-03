@@ -1,6 +1,7 @@
 const authRoute = require("./authRoute.js");
 const roleRoute = require("./roleRoute.js");
 const categoryRoute = require("./categoryRoute.js");
+const brandRoute = require("./brandRoute.js");
 const productRoute = require("./productRoute.js");
 
 function route(app) {
@@ -9,6 +10,7 @@ function route(app) {
   app.use(endPointURL + "/auth", authRoute);
   app.use(endPointURL + "/roles", roleRoute);
   app.use(endPointURL + "/categories", categoryRoute);
+  app.use(endPointURL + "/brands", brandRoute);
   app.use(endPointURL + "/products", productRoute);
 }
 
