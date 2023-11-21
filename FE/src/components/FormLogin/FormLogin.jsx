@@ -1,60 +1,98 @@
-import { Link } from "react-router-dom";
-import FormInput from "../FormInput";
-import { loginUser } from "../../redux/slice";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+
+import { loginUser } from "~/redux/slice";
+
+const defaultTheme = createTheme();
 
 function FormLogin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("CURRENT_USER")) {
-      navigate("/login");
-    } else {
+    if (localStorage.getItem("CURRENT_USER")) {
       navigate("/admin");
     }
   }, []);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const username = e.target[0].value;
-    const password = e.target[1].value;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const username = data.get("username");
+    const password = data.get("password");
 
-    console.log({ username, password });
-
-    loginUser({ username, password }, dispatch, navigate);
+    await loginUser({ username, password }, dispatch, navigate);
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[url('/img')]">
-      <div className="w-[500px] p-3 rounded-lg ">
-        <div className="text-center mb-4">
-          <h1 className="text-center text-2xl font-bold">D Store</h1>
-          <span className="text-center">
-            Cửa hàng bán đồ công nghệ uy tín nhất <strong>Việt Nam</strong>
-          </span>
-        </div>
-        <form onSubmit={handleLogin}>
-          <FormInput className="mb-2" label="Tên đăng nhập"></FormInput>
-          <FormInput type="password" label="Mật khẩu"></FormInput>
-          <span className="block mt-2">
-            Bạn chưa có tài khoản ?{" "}
-            <Link to="/register" className="text-blue-500">
-              Đăng ký ngay
-            </Link>
-          </span>
-          <button
-            type="submit"
-            className="bg-blue-500 p-2 rounded-lg text-white mt-2"
-          >
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
             Đăng nhập
-          </button>
-        </form>
-      </div>
-    </div>
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Đăng nhập
+            </Button>
+            <RouteLink style={{ color: "gray" }} to="/register">
+              Bạn chưa có tài khoản ? đăng ký ngay
+            </RouteLink>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 }
-
 export default FormLogin;

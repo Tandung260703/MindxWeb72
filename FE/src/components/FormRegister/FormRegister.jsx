@@ -1,44 +1,136 @@
+import React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import { Link } from "react-router-dom";
-import FormInput from "../FormInput";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { makeStyles } from "@mui/styles";
 
-function FormRegister() {
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const username = e.target[0].value;
-    const password = e.target[1].value;
+const useStyles = makeStyles((theme) => ({
+  "@global": {
+    body: {
+      backgroundColor: theme.palette.common.white,
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
-    console.log({ username, password });
-  };
+export default function SignUp() {
+  const classes = useStyles();
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[url('/img')]">
-      <div className="w-[500px] p-3 rounded-lg ">
-        <div className="text-center mb-4">
-          <h1 className="text-center text-2xl font-bold">D Store</h1>
-          <span className="text-center">
-            Cửa hàng bán đồ công nghệ uy tín nhất <strong>Việt Nam</strong>
-          </span>
-        </div>
-        <form onSubmit={handleLogin}>
-          <FormInput className="mb-2" label="Tên đăng nhập"></FormInput>
-          <FormInput type="password" label="Mật khẩu"></FormInput>
-          <FormInput type="password" label="Mật khẩu xác nhận"></FormInput>
-          <span className="block mt-2">
-            Bạn đã có tài khoản ?{" "}
-            <Link to="/login" className="text-blue-500">
-              Đăng nhập ngay
-            </Link>
-          </span>
-          <button
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        <form className={classes.form} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                autoFocus
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="lname"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="confirmPassword"
+                label="Confirm Password"
+                type="confirmPassword"
+                id="confirmPassword"
+                autoComplete="current-confirmPassword"
+              />
+            </Grid>
+          </Grid>
+          <Button
             type="submit"
-            className="bg-blue-500 p-2 rounded-lg text-white mt-2"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            sx={{ mt: 2 }}
           >
-            Đăng ký
-          </button>
+            Sign Up
+          </Button>
+          <Grid container justify="flex-end" sx={{ mt: 1 }}>
+            <Grid item>
+              <Link style={{ color: "gray" }} to="/login">
+                Bạn đã có tài khoản ? Đăng nhập ngay
+              </Link>
+            </Grid>
+          </Grid>
         </form>
       </div>
-    </div>
+    </Container>
   );
 }
-
-export default FormRegister;

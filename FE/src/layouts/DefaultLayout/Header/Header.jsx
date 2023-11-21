@@ -1,39 +1,174 @@
+import AdbIcon from "@mui/icons-material/Adb";
+import MenuIcon from "@mui/icons-material/Menu";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 import { Link } from "react-router-dom";
-import Nav from "./Nav";
+import UserControl from "~/components/UserControl";
+
+const pages = [
+  { name: "Products", path: "/" },
+  { name: "Search", path: "/search" },
+];
+const settings = [
+  {
+    key: "PROFILE",
+    name: "Profile",
+    path: "/user/profile",
+  },
+  {
+    key: "DASHBOARD",
+    name: "DashBoard",
+    path: "/admin",
+  },
+  {
+    key: "LOGOUT",
+    name: "Logout",
+    path: "#",
+  },
+];
 
 function Header() {
-  return (
-    <div className="border-b border-stone-700">
-      <div className="flex gap-[30px] items-center justify-between container mx-auto p-4">
-        <div className="flex gap-[30px] items-center">
-          {/* Logo */}
-          <div>
-            <Link to="#">
-              <img src="/images/logo.png" alt="" />
-            </Link>
-          </div>
-          {/* Nav */}
-          <Nav></Nav>
-        </div>
-        <div className="flex gap-[30px]">
-          <button>
-            <i class="fa-solid fa-magnifying-glass cursor-pointer"></i>
-          </button>
-          <button>
-            <i class="fa-solid fa-cart-shopping"></i>
-          </button>
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-          <button>
-            <img
-              class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-              src="/images/avt.png"
-              alt="Bordered avatar"
-            />
-          </button>
-        </div>
-      </div>
-    </div>
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  return (
+    <AppBar position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <img src="/images/logo.png" alt="" />
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              ml: 1,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".1rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            D Store
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              {pages.map((page, index) => (
+                <MenuItem key={index} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                    {<Link to={page.path}>{page.name}</Link>}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            LOGO
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page, index) => (
+              <Button
+                key={index}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                <Link
+                  to={page.path}
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  {page.name}
+                </Link>
+              </Button>
+            ))}
+          </Box>
+          {true ? (
+            <UserControl></UserControl>
+          ) : (
+            <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+              <Button variant="contained" sx={{ backgroundColor: "black" }}>
+                <Link
+                  to="/login"
+                  style={{ color: "white", textDecoration: "none" }}
+                >
+                  Login
+                </Link>
+              </Button>
+              {"/"}
+              <Button variant="contained" sx={{ backgroundColor: "black" }}>
+                <Link
+                  to="/register"
+                  style={{ color: "white", textDecoration: "none" }}
+                >
+                  Register
+                </Link>
+              </Button>
+            </Box>
+          )}
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 }
-
 export default Header;

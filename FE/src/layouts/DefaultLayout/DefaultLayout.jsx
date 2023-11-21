@@ -1,12 +1,12 @@
 import Footer from "./Footer/Footer";
 import Header from "./Header";
+import Box from "@mui/material/Box";
 
 function DefaultLayout({ children }) {
   return (
     <>
       <Header></Header>
-      <div className="min-h-screen">{children}</div>
-      <Footer></Footer>
+      <Box>{children}</Box>
     </>
   );
 }

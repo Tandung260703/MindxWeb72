@@ -1,20 +1,25 @@
-import { Link } from "react-router-dom";
+import Box from "@mui/material/Box";
 import Header from "./components/Header";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCode,
-  faHome,
-  faInbox,
-  faLightbulb,
-} from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "./components/Sidebar";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AdminLayout({ children }) {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("CURRENT_USER")) {
+      navigate("/login");
+    }
+  }, []);
+
   return (
     <div className="">
       <Header></Header>
-      <Sidebar></Sidebar>
-      <div className="fixed left-[240px] top-[64px] p-6">{children}</div>
+      <Box>
+        <Sidebar>
+          <Box sx={{ margin: 5 }}>{children}</Box>
+        </Sidebar>
+      </Box>
     </div>
   );
 }
