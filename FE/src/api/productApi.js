@@ -5,6 +5,10 @@ export const productApi = {
     return await axiosClient.get("/products");
   },
 
+  async search(searchResult) {
+    return await axiosClient.get(`/products?q=${searchResult}`);
+  },
+
   async create(payload) {
     return await axiosClientToken.post("/products/create", payload, {
       headers: {

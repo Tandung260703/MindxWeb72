@@ -17,7 +17,7 @@ const settings = [
   },
   {
     key: "DASHBOARD",
-    name: "DashBoard",
+    name: "Admin",
     path: "/admin",
   },
   {
@@ -39,6 +39,10 @@ function UserControl() {
         break;
       }
       case "LOGOUT": {
+        localStorage.removeItem("CURRENT_USER");
+        localStorage.removeItem("ACCESS_TOKEN");
+        localStorage.removeItem("REFRESH_TOKEN");
+        navigate("/");
         break;
       }
       default:

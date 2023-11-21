@@ -11,7 +11,7 @@ export const loginUser = async (user, dispatch, navigate) => {
     localStorage.setItem("CURRENT_USER", JSON.stringify(res.user));
 
     dispatch(loginSuccess(res.user));
-    navigate("/admin");
+    navigate("/");
   } catch (error) {
     dispatch(loginFailed());
   }

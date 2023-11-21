@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import CardProduct from "~/components/CardProduct";
 import { useEffect, useState } from "react";
 import { productApi } from "~/api";
+import useDebounce from "~/hooks/useDebounce";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -19,11 +20,23 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function Home() {
   const [products, setProducts] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+
+  const debouncedValue = useDebounce(searchValue, 500);
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const result = await productApi.search(debouncedValue);
+      setProducts(result.data);
+    };
+
+    fetchAPI();
+  }, [debouncedValue]);
 
   useEffect(() => {
     productApi
       .getall()
-      .then((res) => console.log("res ->", setProducts(res.data)))
+      .then((res) => setProducts(res.data))
       .catch(() => setProducts([]));
   }, []);
 
@@ -39,6 +52,9 @@ function Home() {
             id="outlined-search"
             label="Nhập tên sản phẩm..."
             type="search"
+            onChange={(e) => {
+              setSearchValue(e.target.value);
+            }}
           />
         </Box>
       </Box>

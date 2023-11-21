@@ -29,6 +29,6 @@ router.delete("/delete/:id", brandController.delete);
 // @params id
 // @desc Get one brand
 // @access Private - Product manager
-router.get("/:id", brandController.detail);
+router.get("/detail/:id", brandController.detail);
 
 module.exports = router;

@@ -57,7 +57,6 @@ function CreateProductAdmin() {
     dataForm.append("thumbnail", imageUpload, "thumbnail");
 
     productApi.create(dataForm).then((res) => {
-      console.log(res);
       navigate("/admin/product");
     });
   };

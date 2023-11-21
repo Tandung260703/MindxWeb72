@@ -37,6 +37,11 @@ const settings = [
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [currentUser, setCurrentUser] = React.useState(null);
+
+  React.useEffect(() => {
+    setCurrentUser(localStorage.getItem("CURRENT_USER"));
+  }, []);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -143,7 +148,7 @@ function Header() {
               </Button>
             ))}
           </Box>
-          {true ? (
+          {currentUser ? (
             <UserControl></UserControl>
           ) : (
             <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>

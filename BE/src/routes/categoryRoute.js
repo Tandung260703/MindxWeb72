@@ -47,6 +47,6 @@ router.delete(
 // @params id
 // @desc Get detail categories
 // @access Public
-router.get("/:id", categoryController.detail);
+router.get("/detail/:id", categoryController.detail);
 
 module.exports = router;

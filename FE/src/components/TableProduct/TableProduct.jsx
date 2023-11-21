@@ -33,14 +33,13 @@ export default function BasicTable() {
   useEffect(() => {
     productApi
       .getall()
-      .then((res) => console.log("res ->", setProducts(res.data)))
+      .then((res) => setProducts(res.data))
       .catch(() => setProducts([]));
   }, []);
 
   const handleDeleteProduct = (id) => {
     productApi.delete(id).then((res) => {
       setProducts((prev) => prev.filter((item) => item._id != id));
-      console.log(res);
     });
   };
 

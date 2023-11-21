@@ -11,6 +11,11 @@ import CreateProductAdmin from "./pages/CreateProductAdmin";
 import EditProductAdmin from "./pages/EditProductAdmin";
 import CategoryAdmin from "./pages/CategoryAdmin";
 import BrandAdmin from "./pages/BrandAdmin";
+import NotFound from "./pages/NotFound";
+import EditCategoryAdmin from "./pages/EditCategoryAdmin";
+import CreateCategoryAdmin from "./pages/CreateCategoryAdmin";
+import CreateBrandAdmin from "./pages/CreateBrandAdmin";
+import EditBrandAdmin from "./pages/EditBrandAdmin";
 
 function App() {
   return (
@@ -91,7 +96,7 @@ function App() {
           path="/admin/category/create"
           element={
             <AdminLayout>
-              <EditProductAdmin></EditProductAdmin>
+              <CreateCategoryAdmin></CreateCategoryAdmin>
             </AdminLayout>
           }
         />
@@ -99,7 +104,7 @@ function App() {
           path="/admin/category/edit/:id"
           element={
             <AdminLayout>
-              <EditProductAdmin></EditProductAdmin>
+              <EditCategoryAdmin></EditCategoryAdmin>
             </AdminLayout>
           }
         />
@@ -112,14 +117,29 @@ function App() {
             </AdminLayout>
           }
         />
+        <Route
+          path="/admin/brand/create"
+          element={
+            <AdminLayout>
+              <CreateBrandAdmin></CreateBrandAdmin>
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/admin/brand/edit/:id"
+          element={
+            <AdminLayout>
+              <EditBrandAdmin></EditBrandAdmin>
+            </AdminLayout>
+          }
+        />
 
         {/* Access Route */}
-
         <Route
           path="*"
           element={
             <DefaultLayout>
-              <div>404</div>
+              <NotFound></NotFound>
             </DefaultLayout>
           }
         ></Route>

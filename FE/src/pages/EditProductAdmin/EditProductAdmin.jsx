@@ -71,7 +71,6 @@ function EditProductAdmin() {
     dataForm.append("thumbnail", imageUpload, "thumbnail");
 
     productApi.update(id, dataForm).then((res) => {
-      console.log(res);
       navigate("/admin/product");
     });
   };
@@ -220,7 +219,6 @@ function EditProductAdmin() {
                   )}
                   onChange={(e, v) => setCategoryId(v._id)}
                   value={categoryId}
-                  isOptionEqualToValue={(o, v) => o === v}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -237,7 +235,6 @@ function EditProductAdmin() {
                     <TextField {...params} label="Hãng sản xuất" />
                   )}
                   onChange={(e, v) => setBrandId(v._id)}
-                  isOptionEqualToValue={(o, v) => o.code === v}
                 />
               </Grid>
             </Grid>

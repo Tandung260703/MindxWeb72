@@ -4,8 +4,22 @@ const Product = require("../models/product.js");
 
 const productController = {
   async index(req, res) {
+    const q = req.query.q || "";
+    const page = req.query.page || 1;
+    const size = req.query.size || 10;
+    const skip = (page - 1) * size;
+
     try {
-      const products = await Product.find();
+      const count = await Product.count();
+      const totalPage = Math.ceil(count / size);
+      const products = await Product.find({
+        name: {
+          $regex: `.*${q}.*`,
+        },
+      })
+        .limit(size)
+        .skip(skip)
+        .exec();
 
       return res.json({
         success: true,
